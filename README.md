@@ -1,60 +1,90 @@
-# Low-Rank-Adaptation_Collab_Notebooks | AI & NLP Experiments
+# AI & NLP Experiments — LoRA & RAG
 
-This repository contains multiple Jupyter/Colab notebooks exploring **Low-Rank Adaptation (LoRA)** techniques and **Retrieval-Augmented Generation (RAG)** systems.  
-Each notebook is independent and focuses on a specific concept or implementation.
+This repository contains **Jupyter/Colab notebooks** exploring **Low-Rank Adaptation (LoRA)** for model fine-tuning and **Retrieval-Augmented Generation (RAG)** for question answering and similarity search. Each notebook is self-contained and demonstrates a distinct workflow, ranging from SST-2 classification and causal LM coding tasks to PDF-based Q&A with Gemini and basic sentence-level retrieval.
 
 ---
 
 ## 📂 Notebooks
 
-### 1. Low-Rank Adaptation – NLP Classifier
-**File:** `Low-Rank_Adaptation_NLP_Classifier.ipynb`  
-- Implements LoRA fine-tuning for a text classification task.  
-- Demonstrates efficiency gains by training only low-rank matrices instead of full model weights.  
-- Example dataset: sentiment analysis / text categorization.
+### 1. Low-Rank Adaptation — NLP Classifier
+
+**File:** `Low_Rank_Adaptation_NLP_Classifier.ipynb`
+
+* **Focus:** Fine-tuning a text classifier on sentiment-style datasets (GLUE SST-2 train/validation parquet shards).
+* **Goal:** Efficiently adapt a supervised classification model without updating all model weights.
+* **Key Steps:** Data loading, preprocessing, LoRA-based fine-tuning, evaluation on validation splits.
 
 ---
 
-### 2. Low-Rank Adaptation – Causal LM (Coding)
-**File:** `Low-Rank_Adaptation_CausalLM_Coding.ipynb`  
-- Applies LoRA to a **Causal Language Model (LM)** for code generation.  
-- Fine-tunes a pretrained coding model (e.g., CodeLLaMA, GPT-NeoX) on small code datasets.  
-- Focus: improving task-specific performance with minimal GPU memory.
+### 2. Low-Rank Adaptation — Causal LM (Coding)
+
+**File:** `Low_Rank_Adaptation_CasualLM_Coding.ipynb`
+
+* **Focus:** Adapting a causal language model for code generation tasks using lightweight parameter updates.
+* **Goal:** Improve code completion and generation performance while keeping the base model mostly frozen.
+* **Key Steps:** Tokenizer/model setup, LoRA adapter training, code generation evaluation.
 
 ---
 
-### 3. RAG – Retrieval with Basic Sentences
-**File:** `RAG_Retrieval_Basic_Sentences.ipynb`  
-- Simple RAG pipeline using FAISS or similar vector store.  
-- Embeds short text sentences and retrieves relevant information.  
-- Serves as an introduction to retrieval-based augmentation.
+### 3. RAG — Retrieval with Basic Sentences
+
+**File:** `Rag_Retrival_Basic_Sentences.ipynb`
+
+* **Focus:** Embedding short text sentences and performing similarity search.
+* **Goal:** Demonstrate a compact retrieval pipeline using **SentenceTransformers** for vectorization.
+* **Key Steps:** Embedding creation, FAISS or vector store indexing, nearest-neighbor search for sentence retrieval.
 
 ---
 
-### 4. RAG – Collaborative LLM Q&A
-**File:** `RAG_Collab_LLMQA.ipynb`  
-- Extends RAG for question answering with **collaborative LLM workflows**.  
-- Demonstrates indexing, retrieval, and LLM-based answer generation.  
-- Can be adapted for multi-user Q&A or knowledge base querying.
+### 4. RAG — Collaborative LLM Q&A (PDF)
+
+**File:** `RAG_Collab_LLMQA.ipynb`
+
+* **Focus:** PDF ingestion, chunking, embedding with **all-MiniLM-L6-v2**, FAISS-based retrieval, and answer generation using **Google Generative AI Gemini models**.
+* **Goal:** Build an interactive “chat with your document” workflow.
+* **Key Steps:**
+
+  1. Configure `GOOGLE_API_KEY` via Colab secrets.
+  2. Upload PDFs, extract text with PyMuPDF.
+  3. Chunk content using `RecursiveCharacterTextSplitter`.
+  4. Embed text chunks and create a FAISS index.
+  5. Query top chunks and generate answers via Gemini.
 
 ---
 
-## 🚀 Usage
-1. Open any notebook in **Google Colab** or Jupyter.  
-2. Install required dependencies (`transformers`, `datasets`, `faiss`, etc.).  
-3. Run cells step by step.  
-4. Modify datasets or hyperparameters as needed.
+## 🚀 Quickstart
+
+1. Open any notebook in **Google Colab** or **Jupyter** with Python 3.
+2. Install required dependencies in the first cells (if not already available).
+3. Run cells top-to-bottom; each notebook is independent and can be executed separately.
 
 ---
 
-## 📌 Requirements
-- Python 3.9+  
-- Hugging Face `transformers`  
-- FAISS / ChromaDB (for RAG notebooks)  
-- PyTorch (GPU recommended for LoRA fine-tuning)  
+## ⚙️ Requirements
+
+* **Python 3** (as indicated in notebooks’ kernelspecs)
+* **Libraries (for RAG & LoRA workflows):**
+
+  * `sentence-transformers`
+  * `faiss-cpu`
+  * `pymupdf`
+  * `langchain`
+  * `google-generativeai`
+  * `ipywidgets`
+* **Datasets:** GLUE SST-2 (used in NLP classifier)
 
 ---
 
-## 📝 License
-This repository is provided for **educational purposes**.  
-Feel free to adapt and extend the code for your own experiments.
+## 📝 Notes
+
+* The **RAG PDF Q&A notebook** keeps credentials secure via Colab secrets.
+* PDF ingestion relies on **PyMuPDF** for text extraction and **FAISS IndexFlatL2** for vector search.
+* The **basic sentence retrieval notebook** demonstrates minimal pipelines for nearest-neighbor searches using SentenceTransformers.
+* LoRA notebooks show **efficient model adaptation** without full weight updates, ideal for resource-constrained environments.
+
+---
+
+This README now clearly separates notebooks, their purposes, dependencies, and execution instructions while being visually easy to read.
+
+---
+
